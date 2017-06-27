@@ -1,24 +1,26 @@
-# Ionic Login :iphone: 
-Este repositório contém um app em Ionic de Autenticação de Login.
+This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
 
-# Requisitos
-* [Node.js](https://nodejs.org/en/)
-* [Ionic](https://ionicframework.com/docs/intro/installation/)
+## How to use this template
 
-# Instalação
-Entrar na pasta do projeto e rodar o npm:
-```
-> npm Install
+*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
 
-```
+To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
 
-# Rodando App
-No navegador basta iniciar o servidorzinho do Ionic (na pasta do projeto):
+### With the Ionic CLI:
 
-```
-> ionic serve
+Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
 
+```bash
+$ sudo npm install -g ionic cordova
+$ ionic start myBlank blank
 ```
 
-E acessar a URL com o endereço http://localhost:8100/ e ser feliz :)
+Then, to run it, cd into `myBlank` and run:
+
+```bash
+$ ionic cordova platform add ios
+$ ionic cordova run ios
+```
+
+Substitute ios for android if not on a Mac.
 
