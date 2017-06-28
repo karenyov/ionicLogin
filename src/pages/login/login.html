@@ -14,7 +14,7 @@
     <ion-row>
       <ion-col col-12>
         <div class="login-box">
-          <form [formGroup]="loginFrmGroup" (ngSubmit)="login()">
+          <form [formGroup]="loginFrmGroup">
 
             <ion-row>
               <ion-col>
@@ -39,7 +39,7 @@
 
             <ion-row>
               <ion-col>
-                <button ion-button full icon-left class="btn-login">
+                <button ion-button full icon-left class="btn-login" (click)="login()">
                   Log in
                 </button>
                 <button ion-button clear color="royal" block>
