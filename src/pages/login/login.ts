@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from 'ionic-angular';
 
+import { HomePage } from '../../pages/home/home';
 import { BasePage } from '../../common/pages/BasePage';
 import { FormValidator } from '../../validators/FormValidator';
+import { UserModel } from '../../models/UserModel';
+import { AuthProvider } from '../../providers/auth';
 
 /**
  * Generated class for the LoginPage page.
@@ -20,11 +24,14 @@ export class LoginPage extends BasePage {
 
   loginFrmGroup: FormGroup;
   isSubmitted: boolean;
+  userModel: UserModel;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public formBuilder: FormBuilder) {
-    super({ formBuilder: formBuilder });
+    public formBuilder: FormBuilder, public alertCtrl: AlertController,
+    public authProvider: AuthProvider) {
+    super({ formBuilder: formBuilder, alertCtrl: alertCtrl });
     this.isSubmitted = false;
+    this.userModel = new UserModel();
   }
 
   ionViewDidLoad() {
@@ -34,7 +41,12 @@ export class LoginPage extends BasePage {
   login(): void {
     this.isSubmitted = true;
     if (this.loginFrmGroup.valid) {
-
+      console.log('login');
+      if (this.authProvider.login(this.userModel)) {
+        this.navCtrl.setRoot(HomePage, {}, { animate: true, direction: 'forward' });
+      } else {
+        this.showMessageError("Incorrect email or password!");
+      }
     }
   }
 

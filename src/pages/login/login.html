@@ -20,13 +20,15 @@
               <ion-col>
                 <ion-list>
                   <ion-item>
-                    <ion-input type="text" placeholder="E-mail:" name="email" formControlName="email" [class.invalid]="isSubmitted && !loginFrmGroup.controls.email.valid"></ion-input>
+                    <ion-input type="text" placeholder="E-mail:" name="email" formControlName="email" [class.invalid]="isSubmitted && !loginFrmGroup.controls.email.valid"
+                      [(ngModel)]="userModel.email"></ion-input>
                   </ion-item>
                   <p *ngIf="isSubmitted && !loginFrmGroup.controls.email.valid" class="invalid-message">
                     Invalid email address!
                   </p>
                   <ion-item>
-                    <ion-input type="password" placeholder="Password" name="password" formControlName="password" [class.invalid]="isSubmitted && !loginFrmGroup.controls.password.valid"></ion-input>
+                    <ion-input type="password" placeholder="Password" name="password" formControlName="password" [class.invalid]="isSubmitted && !loginFrmGroup.controls.password.valid"
+                      [(ngModel)]="userModel.password"></ion-input>
                   </ion-item>
                   <p *ngIf="isSubmitted && !loginFrmGroup.controls.password.valid" class="invalid-message">
                     Invalid password!
