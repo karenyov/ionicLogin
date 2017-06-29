@@ -1,5 +1,5 @@
 # Ionic Login :iphone: 
-Este repositório contém um app em Ionic de Autenticação de Login.
+Este repositório contém um app em Ionic de Autenticação de Login e um servidor feito em Node.js para teste de requisições HTTP.
 
 # Requisitos
 * [Node.js](https://nodejs.org/en/)
@@ -12,8 +12,17 @@ Entrar na pasta do projeto e rodar o npm:
 
 ```
 
-# Rodando App
-No navegador basta iniciar o servidorzinho do Ionic (na pasta do projeto):
+# Rodando o servidor
+Iniciando o servidor feito em Node.js.
+Acessar a pasta ionicLoginAPI dentro do projeto e executar:
+
+```
+> node.app.js
+
+```
+
+# Rodando o Aplicativo no navegador
+No navegador basta iniciar o servidor do Ionic (na pasta do projeto):
 
 ```
 > ionic serve
@@ -21,4 +30,3 @@ No navegador basta iniciar o servidorzinho do Ionic (na pasta do projeto):
 ```
 
 E acessar a URL com o endereço http://localhost:8100/ e ser feliz :)
-
