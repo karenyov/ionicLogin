@@ -1,6 +1,8 @@
 # Ionic Login :iphone: 
 Este repositório contém um app em Ionic de Autenticação de Login e um servidor feito em Node.js para teste de requisições HTTP.
 
+![alt text](app.jpg)
+
 # Requisitos
 * [Node.js](https://nodejs.org/en/)
 * [Ionic](https://ionicframework.com/docs/intro/installation/)
