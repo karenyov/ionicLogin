@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from 'ionic-angular';
+import { AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { BasePage } from '../../common/pages/BasePage';
@@ -28,8 +28,9 @@ export class LoginPage extends BasePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public formBuilder: FormBuilder, public alertCtrl: AlertController,
-    public authProvider: AuthProvider) {
-    super({ formBuilder: formBuilder, alertCtrl: alertCtrl });
+    public authProvider: AuthProvider, public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController) {
+    super({ formBuilder: formBuilder, alertCtrl: alertCtrl, loadingCtrl: loadingCtrl, toastCtrl: toastCtrl });
     this.isSubmitted = false;
     this.userModel = new UserModel();
   }
@@ -40,13 +41,19 @@ export class LoginPage extends BasePage {
 
   login(): void {
     this.isSubmitted = true;
+    this.hideToast();
     if (this.loginFrmGroup.valid) {
-      console.log('login');
-      if (this.authProvider.login(this.userModel)) {
-        this.navCtrl.setRoot(HomePage, {}, { animate: true, direction: 'forward' });
-      } else {
-        this.showMessageError("Incorrect email or password!");
-      }
+      this.showLoading('Fazendo login...');
+      this.authProvider.login(this.userModel).subscribe(
+        data => {
+          this.hideLoading();
+          this.navCtrl.setRoot(HomePage, {}, { animate: true, direction: 'forward' });
+        },
+        err => {
+          this.hideLoading();
+          this.showToast(`${JSON.parse(err._body).error.message}`);
+        }
+      );
     }
   }
 

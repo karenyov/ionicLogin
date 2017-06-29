@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 import { UserModel } from '../models/UserModel';
+import { IonicConstants } from '../ionic-constants';
 
 /*
   Generated class for the AuthProvider provider.
@@ -17,8 +19,20 @@ export class AuthProvider {
     console.log('Hello AuthProvider Provider');
   }
 
-  login(userModel: UserModel): boolean {
-    return userModel.email == 'teste@teste.com.br' && userModel.password == '123';
+  login(userModel: UserModel): Observable<void> {
+
+    if (!userModel || !userModel.email || !userModel.password) {
+      return Observable.throw('Incorrect email or password');
+    }
+
+    let bodyReq = {
+      email: userModel.email,
+      password: userModel.password
+    }
+    return this.http.post(IonicConstants.BASE_URL + '/' + IonicConstants.Auth.LOGIN, bodyReq)
+      .map(response => {
+        let resp = response.json();
+      });
   }
 
   logout(): void {
