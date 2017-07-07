@@ -4,7 +4,6 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { NativeStorage } from '@ionic-native/native-storage';
 
-import { UserModel } from '../models/UserModel';
 import { IonicConstants } from '../ionic-constants';
 
 /*
@@ -17,18 +16,18 @@ import { IonicConstants } from '../ionic-constants';
 export class AuthProvider {
 
   constructor(public http: Http, private nativeStorage: NativeStorage) {
-    console.log('Hello AuthProvider Provider');
+
   }
 
-  login(userModel: UserModel): Observable<void> {
+  login(form: any): Observable<void> {
 
-    if (!userModel || !userModel.email || !userModel.password) {
+    if (!form || !form.email || !form.password) {
       return Observable.throw('Incorrect email or password');
     }
 
     let bodyReq = {
-      email: userModel.email,
-      password: userModel.password
+      email: form.email,
+      password: form.password
     }
     return this.http.post(IonicConstants.BASE_URL + '/' + IonicConstants.Auth.LOGIN, bodyReq)
       .map(response => {

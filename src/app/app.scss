@@ -15,10 +15,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.invalid {
-    border-bottom: 2px solid darkred !important;
-}
-
-.invalid-message {
-    color: darkred;
+.custom-error-message {
+  font-size: 0.8em;
+  color: red !important;
 }

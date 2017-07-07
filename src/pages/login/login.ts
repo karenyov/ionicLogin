@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
-import { BasePage } from '../../common/pages/BasePage';
-import { FormValidator } from '../../validators/FormValidator';
-import { UserModel } from '../../models/UserModel';
 import { AuthProvider } from '../../providers/auth';
+import { CustomValidators } from "../../validators/custom-validators";
+
 
 /**
  * Generated class for the LoginPage page.
@@ -20,47 +19,67 @@ import { AuthProvider } from '../../providers/auth';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class LoginPage extends BasePage {
+export class LoginPage {
 
   loginFrmGroup: FormGroup;
-  isSubmitted: boolean;
-  userModel: UserModel;
+  error: string;
+  email: AbstractControl;
+  password: AbstractControl;
+  toast: any = null;
+  loading: any = null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public formBuilder: FormBuilder, public alertCtrl: AlertController,
-    public authProvider: AuthProvider, public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController) {
-    super({ formBuilder: formBuilder, alertCtrl: alertCtrl, loadingCtrl: loadingCtrl, toastCtrl: toastCtrl });
-    this.isSubmitted = false;
-    this.userModel = new UserModel();
+    public formBuilder: FormBuilder, public authProvider: AuthProvider,
+    public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+    this.loadValidators();
+    this.email = this.loginFrmGroup.controls['email'];
+    this.password = this.loginFrmGroup.controls['password'];
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+
   }
 
-  login(): void {
-    this.isSubmitted = true;
-    this.hideToast();
+  signin(form: any): void {
+    if (this.toast != null) {
+      this.toast.dismiss();
+    }
     if (this.loginFrmGroup.valid) {
-      this.showLoading('Fazendo login...');
-      this.authProvider.login(this.userModel).subscribe(
+      this.showLoader('"Authenticating..."');
+      this.authProvider.login(form).subscribe(
         data => {
-          this.hideLoading();
+          this.loading.dismiss();
           this.navCtrl.setRoot(HomePage, {}, { animate: true, direction: 'forward' });
         },
         err => {
-          this.hideLoading();
+          this.loading.dismiss();
           this.showToast(`${JSON.parse(err._body).error.message}`);
         }
       );
     }
   }
 
-  protected doLoadValidators(): void {
-    this.loginFrmGroup = this._formBuilder.group({
-      email: ['', Validators.compose([Validators.required, FormValidator.email])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(3)])]
+  protected loadValidators(): void {
+    this.loginFrmGroup = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, CustomValidators.emailValidator, CustomValidators.noEmptyWhiteSpace])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(3), CustomValidators.passwordValidator, CustomValidators.noEmptyWhiteSpace])]
     });
+  }
+
+  showToast(message: string) {
+    this.toast = this.toastCtrl.create({
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'OK'
+    });
+    this.toast.setMessage(message);
+    this.toast.present();
+  }
+
+  showLoader(message: string) {
+    this.loading = this.loadingCtrl.create({
+      content: message
+    });
+    this.loading.present();
   }
 }

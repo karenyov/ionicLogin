@@ -10,12 +10,14 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth';
+import { ErrorMessages } from "../validators/error-messages";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    ErrorMessages
   ],
   imports: [
     BrowserModule,
